@@ -1,0 +1,25 @@
+﻿  pch.cpp
+  Editor.cpp
+  Engine.cpp
+  Main.cpp
+  ResourceManager.cpp
+  Systems.cpp
+  Utility.cpp
+C:\Dev\SlimeAttack\Source\Editor.cpp(62,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(63,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(66,52): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(67,52): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(158,24): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(158,19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(160,58): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+C:\Dev\SlimeAttack\Source\Editor.cpp(160,58): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(188,91): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(188,69): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(188,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(188,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(195,66): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(195,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\SlimeAttack\Source\Editor.cpp(198,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  SlimeAttack.vcxproj -> C:\Dev\SlimeAttack\Build\Bin\Win64_Debug\SlimeAttack.exe
+          1 file(s) copied.
+          1 file(s) copied.
