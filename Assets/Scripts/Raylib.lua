@@ -7,11 +7,8 @@ local m_host = nil
 Raylib = {
 
     setHostReference = function(host)
-        if m_host == nil then
-            m_host = host
-        else
-            print("Host reference already set")
-        end
+        if m_host == nil then m_host = host
+        else print("Host reference already set") end
     end,
 
     loadLevel = function(level) -- returns width, height, tiles = {}

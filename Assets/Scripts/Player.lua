@@ -31,61 +31,19 @@ Player = {
 ---------------------
 Player.behaviours = {
     ['idle'] = function(dt)
-        -- check right and left movement
-        if Raylib.isKeyDown(KEY.KEY_D) then
-            Player.direction.x = 1
-            Player.sourceRec.y = 0.0
-        elseif Raylib.isKeyDown(KEY.KEY_A) then
-            Player.direction.x = -1
-            Player.sourceRec.y = 22.0
-        else
-            Player.direction.x = 0
-        end
-
-        -- check up and down movement
-        if Raylib.isKeyDown(KEY.KEY_W) then
-            Player.direction.y = -1
-        elseif Raylib.isKeyDown(KEY.KEY_S) then
-            Player.direction.y = 1
-        else
-            Player.direction.y = 0
-        end
-
-        -- update state
+        Player.update_direction()
+        
         if not Player.direction:isZero() then
-            Player.state = 'walking'
-            Player.animation = Player.animations['walking']
-            Player.animations['walking']:restart()
+            Player.set_state_and_animation('walking')
         end
 
     end,
 
-    ['walking'] = function(dt)
-        -- check right and left movement
-        if Raylib.isKeyDown(KEY.KEY_D) then
-            Player.direction.x = 1
-            Player.sourceRec.y = 0.0
-        elseif Raylib.isKeyDown(KEY.KEY_A) then
-            Player.direction.x = -1
-            Player.sourceRec.y = 22.0
-        else
-            Player.direction.x = 0
-        end
-        
-        -- check up and and movement
-        if Raylib.isKeyDown(KEY.KEY_W) then
-            Player.direction.y = -1
-        elseif Raylib.isKeyDown(KEY.KEY_S) then
-            Player.direction.y = 1
-        else
-            Player.direction.y = 0
-        end
+    ['walking'] = function(dt)   
+        Player.update_direction()
 
-        -- update state
         if Player.direction:isZero() then
-            Player.state = 'idle'
-            Player.animation = Player.animations['idle']
-            Player.animations['idle']:restart()
+            Player.set_state_and_animation('idle')
         end
 
     end,
@@ -115,8 +73,6 @@ Player.animations = {
 
 Player.animation = Player.animations['idle']
 
-
-
 ---------------------
 -- Player methods
 ---------------------
@@ -133,8 +89,32 @@ function Player:update(dt)
 end
 
 function Player:render()
+
+    -- update sourceRec
+    if Player.direction.x > 0 then Player.sourceRec.y = 0.0
+    else Player.sourceRec.y = 22.0 end
+
     --Raylib.drawTextureRec(self.texture, self.sourceRec, self.position)
     Raylib.drawTexturePro(self.texture, self.sourceRec, self.position, 1.5, 0.0)
+end
+
+
+
+function Player.update_direction()
+    -- right & left
+    if Raylib.isKeyDown(KEY.KEY_D) then Player.direction.x = 1
+    elseif Raylib.isKeyDown(KEY.KEY_A) then Player.direction.x = -1
+    else Player.direction.x = 0 end
+    -- up & down
+    if Raylib.isKeyDown(KEY.KEY_W) then Player.direction.y = -1
+    elseif Raylib.isKeyDown(KEY.KEY_S) then Player.direction.y = 1
+    else Player.direction.y = 0 end
+end
+
+function Player.set_state_and_animation(state)
+    Player.state = state
+    Player.animation = Player.animations[state]
+    Player.animations[state]:restart()
 end
 
 

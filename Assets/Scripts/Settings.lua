@@ -1,5 +1,5 @@
 --[[ Path to all scripts ]]--
-local pathToScripts = ';C:/Dev/Skolan/SlimeAttack/Assets/Scripts/?.lua'
+local pathToScripts = ';C:/Dev/SlimeAttack/Assets/Scripts/?.lua'
 package.path = package.path .. pathToScripts
 
 print("LUA: path to lua scripts: " .. pathToScripts)
