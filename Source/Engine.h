@@ -32,13 +32,8 @@ private:
     float m_frameTimeAccumulator;
     int m_frameCount;
 
-    struct TextureRec {
-        std::string textureName;
-        Rectangle rectangle;
-        Vector2 position;
-    };
-    std::vector<TextureRec> m_renderBatch;
-
+    std::vector<TextureRec> m_renderTextureBatch;
+    std::queue<TextData> m_renderTextQueue;
 
     // Core Engine 
     void RegisterLuaFunctions();
@@ -71,4 +66,6 @@ private:
     static int wrap_IsMouseButtonPressed(lua_State* L);
     static int wrap_GetMouseScreenToWorld2D(lua_State* L);
     static int wrap_AddToRenderBatch(lua_State* L);
+    static int wrap_DrawText(lua_State* L);
+    static int wrap_PostRenderText(lua_State* L);
 };

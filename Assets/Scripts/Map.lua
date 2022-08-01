@@ -73,7 +73,7 @@ function Map:render()
 
             local tileID = self:getTile(w, h)
             local tileX = tileID % 5
-            local tileY = 0--math.floor(tileID / 7)
+            local tileY = 0 --math.floor(tileID / 7)
    
             sourceRec = { 
                 x = tileX * self.tileWidth, 

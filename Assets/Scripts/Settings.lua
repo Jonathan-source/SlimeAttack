@@ -16,11 +16,9 @@ WINDOW_HEIGHT = 600
 function preload(host)
     Raylib.setHostReference(host)
 
-    title = "Engine"
-    windowWidth = WINDOW_WIDTH
-    windowHeight = WINDOW_HEIGHT
-    targetFPS = 60
-    mainScript = "Game.lua"
+    local title = "Engine"
+    local targetFPS = 60
+    local mainScript = "Game.lua"
     
-    _InitializeEngine(host, title, windowWidth, windowHeight, targetFPS, mainScript)
+    _InitializeEngine(host, title, WINDOW_WIDTH, WINDOW_HEIGHT, targetFPS, mainScript)
 end

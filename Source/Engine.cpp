@@ -60,8 +60,8 @@ void Engine::Start()
 
         BeginMode2D(m_mainCamera);
 
-        // Render Map 
-        for (const auto& it : m_renderBatch) {
+        // PreRender Map 
+        for (const auto& it : m_renderTextureBatch) {
             DrawTextureRec(ResourceManager::Get().GetTexture(it.textureName), it.rectangle, it.position, WHITE);
         }
 
@@ -69,6 +69,14 @@ void Engine::Start()
         OnRender();
 
         EndMode2D();
+
+        // PostRender Text
+        while (!m_renderTextQueue.empty()) {
+            TextData data = m_renderTextQueue.front();
+            m_renderTextQueue.pop();
+            DrawText(data.text.c_str(), data.x, data.y, data.fontSize, data.color);
+        }
+
         EndDrawing();
     }
 
@@ -93,18 +101,22 @@ void Engine::RegisterLuaFunctions()
     lua_register(L, "_IsMouseButtonDown",       wrap_IsMouseButtonDown);
     lua_register(L, "_IsMouseButtonPressed",    wrap_IsMouseButtonPressed);
     lua_register(L, "_GetMouseScreenToWorld2D", wrap_GetMouseScreenToWorld2D);
-    lua_register(L, "_AddToRenderBatch", wrap_AddToRenderBatch);
+    lua_register(L, "_AddToRenderBatch",        wrap_AddToRenderBatch);
+    lua_register(L, "_DrawText",                wrap_DrawText);
+    lua_register(L, "_PostRenderText",          wrap_PostRenderText);
 }
 
 void Engine::LoadResources()
 {
     ResourceManager::Get().SetResourcePath(m_projectPath + "\\Assets");
-
+    
     ResourceManager::Get().GetTexture("tileset.png");
     ResourceManager::Get().GetTexture("player_knight.png");
     ResourceManager::Get().GetTexture("enemy_slime.png");
     ResourceManager::Get().GetTexture("enemy_slime_red.png");
     ResourceManager::Get().GetTexture("weapon_knife.png");
+
+    ResourceManager::Get().GetFont("mono.ttf");
 }
 
 bool Engine::LoadMainScript()
@@ -382,10 +394,10 @@ int Engine::wrap_DrawRectangle(lua_State* L)
     if (lua_gettop(L) != 5) return -1;
 
     Engine* engine = (Engine*)lua_touserdata(L, 1);
-    int x = (int)(float)lua_tonumber(L, 2);
-    int y = (int)(float)lua_tonumber(L, 3);
-    int width = (int)(float)lua_tonumber(L, 4);
-    int height = (int)(float)lua_tonumber(L, 5);
+    int x = (int)lua_tonumber(L, 2);
+    int y = (int)lua_tonumber(L, 3);
+    int width = (int)lua_tonumber(L, 4);
+    int height = (int)lua_tonumber(L, 5);
     DrawRectangle(x, y, width, height, RED);
     
     return 0;
@@ -477,7 +489,40 @@ int Engine::wrap_AddToRenderBatch(lua_State* L)
     float posY = (float)lua_tonumber(L, 8);
  
     TextureRec textRect = { textureName, { x, y, width, height }, { posX, posY } };
-    engine->m_renderBatch.push_back(textRect);
+    engine->m_renderTextureBatch.push_back(textRect);
+
+    return 0;
+}
+
+int Engine::wrap_DrawText(lua_State* L)
+{
+    if (lua_gettop(L) != 6) return -1;
+
+    Engine* engine = (Engine*)lua_touserdata(L, 1);
+    std::string text = lua_tostring(L, 2);
+    int x = (int)lua_tointeger(L, 3);
+    int y = (int)lua_tointeger(L, 4);
+    int fontSize = (int)lua_tointeger(L, 5);
+    EColor color = (EColor)lua_tointeger(L, 6);
+
+    DrawText(text.c_str(), x, y, fontSize, GetColor(color));
+
+    return 0;
+}
+
+int Engine::wrap_PostRenderText(lua_State* L)
+{
+    if (lua_gettop(L) != 6) return -1;
+
+    Engine* engine = (Engine*)lua_touserdata(L, 1);
+    std::string text = lua_tostring(L, 2);
+    int x = (int)lua_tointeger(L, 3);
+    int y = (int)lua_tointeger(L, 4);
+    int fontSize = (int)lua_tointeger(L, 5);
+    EColor color = (EColor)lua_tointeger(L, 6);
+
+    TextData textInfo{ text, x, y, fontSize, GetColor(color)};
+    engine->m_renderTextQueue.emplace(textInfo);
 
     return 0;
 }

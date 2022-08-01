@@ -1,5 +1,6 @@
 
 require 'Keys'
+require 'Color'
 require 'Vector2'
 
 --[[ Load engine variables ]]--
@@ -81,6 +82,14 @@ Raylib = {
         return _CheckCollisionRect(m_host, 
             rect1.x, rect1.y, rect1.width, rect1.height,
             rect2.x, rect2.y, rect2.width, rect2.height)
+    end,
+
+    drawText = function(text, position, size, color)
+        _DrawText(m_host, text, position.x, position.y, size, color)
+    end,
+
+    postRenderText = function(text, position, size, color)
+        _PostRenderText(m_host, text, position.x, position.y, size, color)
     end,
 }
 

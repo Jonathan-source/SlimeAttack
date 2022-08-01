@@ -10,7 +10,6 @@ local player
 local enemyList = {}
 local knifeList = {}
 
-
 local MAX_KNIFE_COUNT = 2
 
 local slimesKilled = 0
@@ -27,13 +26,10 @@ function onInit()
     player = Player:new()
     player.map = gameMap
 
-
     for i = 1, 20 do
         enemyList[#enemyList + 1] = Enemy:new({map = gameMap, player = player,
         texture = "enemy_slime_red.png", position = Vector2.new(math.random(0, 400), math.random(0, 400))})
     end 
-
-
 
     Raylib.setCameraTarget(player.position)
     Raylib.setCameraOffset({x = WINDOW_WIDTH / 2, y = WINDOW_HEIGHT / 2})
@@ -129,4 +125,8 @@ function onRender()
     for i = 1, #knifeList do
         knifeList[i]:render()
     end
+
+    local position = { x = 10, y = 10 }
+    local text = "Slimes killed: " .. slimesKilled
+    Raylib.postRenderText(text, position, 25, COLOR.WHITE)
 end

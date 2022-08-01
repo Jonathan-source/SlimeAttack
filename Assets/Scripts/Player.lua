@@ -89,11 +89,6 @@ function Player:update(dt)
 end
 
 function Player:render()
-
-    -- update sourceRec
-    if Player.direction.x > 0 then Player.sourceRec.y = 0.0
-    else Player.sourceRec.y = 22.0 end
-
     --Raylib.drawTextureRec(self.texture, self.sourceRec, self.position)
     Raylib.drawTexturePro(self.texture, self.sourceRec, self.position, 1.5, 0.0)
 end
@@ -102,9 +97,14 @@ end
 
 function Player.update_direction()
     -- right & left
-    if Raylib.isKeyDown(KEY.KEY_D) then Player.direction.x = 1
-    elseif Raylib.isKeyDown(KEY.KEY_A) then Player.direction.x = -1
+    if Raylib.isKeyDown(KEY.KEY_D) then 
+        Player.direction.x = 1
+        Player.sourceRec.y = 0.0
+    elseif Raylib.isKeyDown(KEY.KEY_A) then 
+        Player.direction.x = -1
+        Player.sourceRec.y = 22.0    
     else Player.direction.x = 0 end
+    
     -- up & down
     if Raylib.isKeyDown(KEY.KEY_W) then Player.direction.y = -1
     elseif Raylib.isKeyDown(KEY.KEY_S) then Player.direction.y = 1

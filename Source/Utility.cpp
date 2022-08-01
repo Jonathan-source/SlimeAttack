@@ -66,4 +66,20 @@ void DumpStack ( lua_State * L )
     std::cout << std::string(12, '-') << std::endl;
 }
 
+Color GetColor(EColor color)
+{
+    Color result{ 0, 0, 0, 255 };
+
+    switch (color) {
+        case EColor::Black:     result = Color({ 0, 0, 0, 255 });        break;
+        case EColor::White:     result = Color({ 255, 255, 255, 255 });  break;
+        case EColor::Red:       result = Color({ 230, 41, 55, 255 });    break;
+        case EColor::Green:     result = Color({ 0, 228, 48, 255 });     break;
+        case EColor::Blue:      result = Color({ 0, 121, 241, 255 });    break;
+        case EColor::Yellow:    result = Color({ 253, 249, 0, 255 });    break;
+    }
+
+    return result;
+}
+
 
