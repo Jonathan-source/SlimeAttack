@@ -17,7 +17,7 @@ struct LevelData {
 
 struct TextureRec {
     std::string textureName;
-    Rectangle rectangle;
+    Rectangle source;
     Vector2 position;
 };
 

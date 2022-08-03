@@ -24,7 +24,7 @@ Editor::Editor(int width, int height, const std::string &projectPath)
     InitEditableTiles();
 }
 
-void Editor::Run()
+void Editor::Start()
 {
     //Camera2D mainCamera;
     //mainCamera.target = { 0,0 };

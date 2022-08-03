@@ -39,7 +39,7 @@ function Knife:new(params)
 
         minAttackPower = 10,
 
-        maxAttackPower = 50,
+        maxAttackPower = 25,
 
         timer = 0.0,
   

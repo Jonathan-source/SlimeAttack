@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Editor.h"
 
-//#define EDITOR
+#define EDITOR
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +21,9 @@ int main(int argc, char* argv[])
     luaL_openlibs(L);
 
 #ifdef EDITOR
-    // 1280	×	720a
+    Editor* editor = new Editor(1920, 1080, projectPath.string());
+    editor->Start();
+    delete editor;
 #else
     Engine * engine = new Engine(L, projectPath.string());
     if (engine->Preload())

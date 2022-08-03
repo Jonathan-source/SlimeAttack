@@ -17,6 +17,13 @@ function Enemy:update(dt)
 
     self.boundingBox.x = self.position.x + 3
     self.boundingBox.y = self.position.y + 2
+
+    self.healthBar.x = self.position.x
+    self.healthBar.y = self.position.y - 5
+    self.healthBar.width = 25.0/100 * self.health
+
+    self.missingHealthBar.x = self.healthBar.x
+    self.missingHealthBar.y = self.healthBar.y
 end
 
 function Enemy:render()
@@ -28,6 +35,8 @@ function Enemy:render()
     end
 
     Raylib.drawTexturePro(self.texture, self.sourceRec, self.position, self.scale, 0.0)
+    Raylib.drawRectangle(self.missingHealthBar, COLOR.RED)
+    Raylib.drawRectangle(self.healthBar, COLOR.GREEN)
 end
 
 ---------------------
@@ -49,11 +58,14 @@ function Enemy:new(params)
 
         scale = 1.5,
 
-        speed = 10,
+        speed = params.speed or 10,
     
-        state = 'patrolling',
+        state = params.state or 'patrolling',
     
         boundingBox = {x = 0.0, y = 0.0, width = 15.0,  height = 20.0},
+
+        healthBar = {x = 0.0, y = 0.0, width = 25.0,  height = 5.0},
+        missingHealthBar = {x = 0.0, y = 0.0, width = 25.0,  height = 5.0},
     
         animation = nil,
     

@@ -74,8 +74,8 @@ Raylib = {
         _SetCameraRotation(m_host, rotation)
     end,
 
-    drawRectangle = function(rectangle)
-        _DrawRectangle(m_host, rectangle.x, rectangle.y, rectangle.width, rectangle.height)
+    drawRectangle = function(rectangle, color)
+        _DrawRectangle(m_host, rectangle.x, rectangle.y, rectangle.width, rectangle.height, color)
     end,
 
     checkCollisionRect = function(rect1, rect2)

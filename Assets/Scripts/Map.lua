@@ -76,15 +76,15 @@ function Map:render()
             local tileY = 0 --math.floor(tileID / 7)
    
             sourceRec = { 
-                x = tileX * self.tileWidth, 
-                y = tileY * self.tileHeight, 
-                width = self.tileWidth, 
-                height = self.tileHeight 
+                x = tonumber(tileX * self.tileWidth), 
+                y = tonumber(tileY * self.tileHeight), 
+                width = tonumber(self.tileWidth), 
+                height = tonumber(self.tileHeight) 
             }
 
             position = { 
-                x = (w - 1) * self.tileWidth,
-                y = (h - 1) * self.tileHeight
+                x = tonumber((w - 1) * self.tileWidth),
+                y = tonumber((h - 1) * self.tileHeight)
             } 
 
             Raylib.drawTextureRec(self.texture, sourceRec, position)

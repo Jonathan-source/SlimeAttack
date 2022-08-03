@@ -2,15 +2,15 @@
 
 #include "raylib.h"
 
-#define LEVEL_WIDTH 30
-#define LEVEL_HEIGHT 20
+#define LEVEL_WIDTH 50
+#define LEVEL_HEIGHT 30
 
 #define VISIBLE_TILES_X 16
 #define VISIBLE_TILES_Y 12
 
 #define TILE_SIZE 32
 
-#define TILESET_WIDTH 20
+#define TILESET_WIDTH 12
 #define TILESET_HEIGHT 20
 
 #define OPT_WIDTH 400 
@@ -22,7 +22,7 @@ public:
     Editor(int width, int height, const std::string &projectPath);
     virtual ~Editor() = default;
 
-    void Run();
+    void Start();
 
 private:
     bool m_isRunning;

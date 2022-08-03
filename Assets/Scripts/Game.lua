@@ -3,12 +3,14 @@ require 'Map'
 require 'Player'
 require 'Enemy'
 require 'Knife'
+require 'Potion'
 
 local gameMap
 local player
 
 local enemyList = {}
 local knifeList = {}
+local itemList = {}
 
 local MAX_KNIFE_COUNT = 2
 
@@ -58,6 +60,11 @@ function onUpdate(dt)
 
     end
 
+    -- update items
+    for i, item in ipairs(itemList) do
+        item:update(dt)
+    end
+
     -- update knives
     for i, knife in ipairs(knifeList) do
         knife:update(dt)
@@ -75,13 +82,26 @@ function onUpdate(dt)
                 enemy.health = enemy.health - math.random(knife.minAttackPower, knife.maxAttackPower)
                 enemy.state = 'chasing'
                 if enemy.health <= 0 then
+                    if math.random(1, 10) == 10 then
+                        itemList[#itemList + 1] = Potion:new({ position = enemy.position})
+                    end
                     table.remove(enemyList, j)
                     slimesKilled = slimesKilled + 1
-                    print(slimesKilled)
                 end
             end
 
         end
+    end
+
+    -- update player-item collisions
+    for i, item in ipairs(itemList) do
+
+        if Raylib.checkCollisionRect(item.boundingBox, player.boundingBox) then
+            player.health = player.health + math.random(item.minHealthGain, item.maxHealthGain)
+            if player.health > 100 then player.health = 100 end
+            table.remove(itemList, i)
+        end
+
     end
 
     -- throw knives
@@ -113,13 +133,15 @@ end
 -- Render
 ---------------------
 function onRender()
+    for i = 1, #itemList do
+        itemList[i]:render()
+    end
+
     --gameMap:drawLayers(gameMap:layers['Ground'])
     player:render()
-    --Raylib.drawRectangle(player.boundingBox); -- for debug
 
     for i = 1, #enemyList do
         enemyList[i]:render()
-        --Raylib.drawRectangle(enemyList[i].boundingBox); -- for debug
     end
 
     for i = 1, #knifeList do

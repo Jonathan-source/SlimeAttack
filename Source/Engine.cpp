@@ -62,7 +62,7 @@ void Engine::Start()
 
         // PreRender Map 
         for (const auto& it : m_renderTextureBatch) {
-            DrawTextureRec(ResourceManager::Get().GetTexture(it.textureName), it.rectangle, it.position, WHITE);
+            DrawTextureRec(ResourceManager::Get().GetTexture(it.textureName), it.source, it.position, WHITE);
         }
 
         // Render
@@ -115,6 +115,7 @@ void Engine::LoadResources()
     ResourceManager::Get().GetTexture("enemy_slime.png");
     ResourceManager::Get().GetTexture("enemy_slime_red.png");
     ResourceManager::Get().GetTexture("weapon_knife.png");
+    ResourceManager::Get().GetTexture("item_health_potion.png");
 
     ResourceManager::Get().GetFont("mono.ttf");
 }
@@ -391,15 +392,17 @@ int Engine::wrap_SetCameraRotation(lua_State* L)
 
 int Engine::wrap_DrawRectangle(lua_State* L)
 {
-    if (lua_gettop(L) != 5) return -1;
+    if (lua_gettop(L) != 6) return -1;
 
     Engine* engine = (Engine*)lua_touserdata(L, 1);
-    int x = (int)lua_tonumber(L, 2);
-    int y = (int)lua_tonumber(L, 3);
-    int width = (int)lua_tonumber(L, 4);
-    int height = (int)lua_tonumber(L, 5);
-    DrawRectangle(x, y, width, height, RED);
-    
+    float x = (float)lua_tonumber(L, 2);
+    float y = (float)lua_tonumber(L, 3);
+    float width = (float)lua_tonumber(L, 4);
+    float height = (float)lua_tonumber(L, 5);
+    EColor color = (EColor)lua_tointeger(L, 6);
+
+    DrawRectangleRec({ x, y, width, height }, GetColor(color));
+
     return 0;
 }
 
@@ -408,18 +411,25 @@ int Engine::wrap_CheckCollisionRect(lua_State* L)
     if (lua_gettop(L) != 9) return -1;
 
     Engine* engine = (Engine*)lua_touserdata(L, 1);
-    float x = (float)lua_tonumber(L, 2);
-    float y = (float)lua_tonumber(L, 3);
-    float width = (float)lua_tonumber(L, 4);
-    float height = (float)lua_tonumber(L, 5);
 
-    float x2 = (float)lua_tonumber(L, 6);
-    float y2 = (float)lua_tonumber(L, 7);
-    float width2 = (float)lua_tonumber(L, 8);
-    float height2 = (float)lua_tonumber(L, 9);
+    if (engine)
+    {
+        float x = (float)lua_tonumber(L, 2);
+        float y = (float)lua_tonumber(L, 3);
+        float width = (float)lua_tonumber(L, 4);
+        float height = (float)lua_tonumber(L, 5);
 
-    bool bCollision = CheckCollisionRecs({ x, y, width, height }, { x2, y2, width2, height2 });
-    lua_pushboolean(L, bCollision);
+        float x2 = (float)lua_tonumber(L, 6);
+        float y2 = (float)lua_tonumber(L, 7);
+        float width2 = (float)lua_tonumber(L, 8);
+        float height2 = (float)lua_tonumber(L, 9);
+
+        bool bCollision = CheckCollisionRecs({ x, y, width, height }, { x2, y2, width2, height2 });
+        lua_pushboolean(L, bCollision);
+    }
+    else {
+        lua_pushnil(L);
+    }
 
     return 1;
 }
