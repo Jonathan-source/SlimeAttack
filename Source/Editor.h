@@ -1,66 +1,63 @@
 #pragma once
 
 #include "raylib.h"
+#include "Utility.h"
 
-#define LEVEL_WIDTH 50
-#define LEVEL_HEIGHT 30
-
-#define VISIBLE_TILES_X 16
-#define VISIBLE_TILES_Y 12
-
-#define TILE_SIZE 32
-
-#define TILESET_WIDTH 12
-#define TILESET_HEIGHT 20
-
-#define OPT_WIDTH 400 
-#define MARGIN_SIZE 5
-
-class Editor
+class Editor 
 {
-public:
-    Editor(int width, int height, const std::string &projectPath);
-    virtual ~Editor() = default;
+	struct Tile {
+		Vector2 position;
+		Rectangle rectangle;
+	};
 
-    void Start();
+public:
+	Editor(int width, int height, const std::string& projectPath);
+	virtual ~Editor();
+
+	void Start();
 
 private:
-    bool m_isRunning;
+	std::string m_projectPath;
+	Texture2D m_tileset;
+	bool m_isRunning;
+	Camera2D m_mainCamera;
 
-    int m_windowWidth;
-    int m_windowHeight;
-    std::string m_projectPath;
+	std::vector<EditorItem> m_panelItems;
 
-    Texture m_tileset;
-    Vector2 m_panelOffset;
+	EditorItem m_selectedItem;
 
-    std::vector<Rectangle> m_optionPanelTiles;
-    std::vector<Rectangle> m_editableTiles;
+	std::vector<EditorItem> m_canvasItem;
 
-    Rectangle m_selectedItem;
+	Rectangle m_btnSaveRec;
+	bool m_btnSaveMouseHover;
+	bool m_showSaveMessage;
+	int m_saveMessageCounter;
 
-    float m_framesTime;
-    int m_frameCount;
+	Rectangle m_btnClearRec;
+	bool m_btnClearMouseHover;
 
-    struct Tile {
-        Vector2 position;
-        Rectangle textureRec;
-    };
+	Rectangle m_btnRandomRec;
+	bool m_btnRandomMouseHover;
 
-    std::array<std::vector<Tile>, 4> m_layers;
+	void InitializePanel();
 
-    void InitOptionPanel();
-    void InitEditableTiles();
+	void InitializeCanvas();
 
-    Tile m_levelMatrix[LEVEL_HEIGHT][LEVEL_WIDTH];
+	void HandleInput();
 
-    void UpdateFPS();
+	void DrawPanel();
 
-    void LoadLevel();
-    void SaveLevel();
+	void DrawTileGrid();
 
-    void DrawLevel();
-    void DrawOptions();
+	void DrawCanvas();
 
-    void DrawEditorGrid();
+	void SaveLevel();
+
+	void LoadLevel();
+
+	void ClearLevel();
+
+	void RandomLevel();
+
+	void UpdateSaveMsgTimer(float frameDelta);
 };

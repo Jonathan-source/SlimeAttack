@@ -41,3 +41,15 @@ Sound& ResourceManager::GetSound(const std::string& name)
     }
     return it->second;
 }
+
+ResourceManager::~ResourceManager()
+{
+    for (auto& it : m_textures)
+        UnloadTexture(it.second);
+
+    for (auto& it : m_fonts)
+        UnloadFont(it.second);
+
+    for (auto& it : m_sounds)
+        UnloadSound(it.second);
+}

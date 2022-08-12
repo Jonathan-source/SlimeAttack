@@ -21,16 +21,16 @@ local slimesKilled = 0
 ---------------------
 function onInit()
     gameMap = Map:new()
-    --gameMap:loadLevel("test.txt")
-    gameMap:createLevel(25, 25)
+    gameMap:loadLevel("level.eff")
+    --gameMap:createLevel(25, 25)
     gameMap:addMapToRenderBatch()
 
-    player = Player:new()
+    player = Player:new({ position = Vector2.new(200, 200) })
     player.map = gameMap
 
     for i = 1, 20 do
         enemyList[#enemyList + 1] = Enemy:new({map = gameMap, player = player,
-        texture = "enemy_slime_red.png", position = Vector2.new(math.random(0, 400), math.random(0, 400))})
+        texture = "enemy_slime.png", position = Vector2.new(math.random(0, 400), math.random(0, 400))})
     end 
 
     Raylib.setCameraTarget(player.position)
@@ -52,6 +52,7 @@ function onUpdate(dt)
 
         if Raylib.checkCollisionRect(enemy.boundingBox, player.boundingBox) then
             player.health = player.health - math.random(enemy.minAttackPower, enemy.maxAttackPower)
+            if  player.health < 0 then  player.health = 0 end
             table.remove(enemyList, i)
             if player.health <= 0 then
                 print("GAME OVER")
@@ -112,13 +113,12 @@ function onUpdate(dt)
             local knifeDir = mouse - player.position
             knifeDir:normalize()
 
-            local knifePos = Vector2.new(
-                player.position.x + (player.sourceRec.width / 2),
-                player.position.y + (player.sourceRec.height / 2)
-            )
-
             knifeList[#knifeList + 1] = Knife:new({
-                position = knifePos, direction = knifeDir,
+                position = Vector2.new(
+                    player.position.x + (player.sourceRec.width / 2),
+                    player.position.y + (player.sourceRec.height / 2)
+                ),
+                direction = knifeDir,
                 rotation = calculateRotation(knifeDir)
             })
         end

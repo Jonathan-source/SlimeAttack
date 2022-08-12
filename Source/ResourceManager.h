@@ -18,7 +18,7 @@ public:
 
 private:
     ResourceManager() = default;
-    virtual ~ResourceManager() = default;
+    virtual ~ResourceManager();
 
     std::string m_resourcePath;
 

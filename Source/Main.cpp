@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Editor.h"
 
-#define EDITOR
+//#define EDITOR
 
 int main(int argc, char* argv[])
 {
@@ -17,28 +17,43 @@ int main(int argc, char* argv[])
         if (part == "SlimeAttack") break;
     }
 
-    lua_State* L = luaL_newstate();
-    luaL_openlibs(L);
-
-#ifdef EDITOR
-    Editor* editor = new Editor(1920, 1080, projectPath.string());
-    editor->Start();
-    delete editor;
-#else
-    Engine * engine = new Engine(L, projectPath.string());
-    if (engine->Preload())
+    bool isRunning = true;
+    do 
     {
-        if (engine->Initialize())
+        std::string input = "";
+        std::cout << "'game', 'editor', 'exit'" << std::endl;
+        std::getline(std::cin, input);
+
+        if (input == "game")
         {
-            engine->Start();
+            lua_State* L = luaL_newstate();
+            luaL_openlibs(L);
+
+            Engine* engine = new Engine(L, projectPath.string());
+            if (engine->Preload())
+            {
+                if (engine->Initialize())
+                {
+                    engine->Start();
+                }
+            }
+            delete engine;
+
+            DumpStack(L);
+
+            lua_close(L);
         }
-    }
-    delete engine;
-#endif
-
-    DumpStack(L);
-
-    lua_close(L);
+        else if (input == "editor")
+        {
+            Editor* editor = new Editor(800, 600, projectPath.string());
+            editor->Start();
+            delete editor;
+        }
+        else if (input == "exit")
+        {
+            isRunning = false;
+        }
+    } while (isRunning);
 
     return 0;
 }

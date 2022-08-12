@@ -81,6 +81,8 @@ void Engine::Start()
     }
 
     CloseAudioDevice();
+
+    CloseWindow();
 }
 
 void Engine::RegisterLuaFunctions()
@@ -207,27 +209,42 @@ void Engine::InitializeEngine(int width, int height, int targetFPS, const std::s
 
 LevelData Engine::LoadLevel(const std::string& level)
 {
-    LevelData data;
+    LevelData levelData;
+
+    std::vector<EditorItem> temp;
 
     std::ifstream reader;
-    reader.open(m_projectPath + "\\Assets\\Levels\\" + level);
+    reader.open(m_projectPath + "\\Assets\\Levels\\" + level, std::ios::in | std::ios::binary);
     if (reader.is_open())
     {
-        reader >> data.width >> data.height;
-        for (int y = 0; y < data.height; y++)
-        {
-            for (int x = 0; x < data.width; x++)
-            {
-                int value = -1;
-                reader >> value;
-                data.cells.push_back(value);
-            }
-        }
+        size_t level_width = 0;
+        size_t level_height = 0;
+
+        reader.read(reinterpret_cast<char*>(&level_width), sizeof(size_t));
+        reader.read(reinterpret_cast<char*>(&level_height), sizeof(size_t));
+
+        temp.clear();
+        temp.resize(level_width * level_height);
+
+        reader.read(reinterpret_cast<char*>(&temp[0]), (level_width * level_height) * sizeof(EditorItem));
 
         reader.close();
+
+        levelData.width = level_width;
+        levelData.height = level_height;
+        for (const auto& item : temp)
+        {
+            levelData.tiles.push_back(item.tileID);
+        }
+        std::cout << "\nEngine::LoadLevel() complete.\n\n";
+    }
+    else
+    {
+        std::cout << "\nAn error occured when reading data from file.\n\n";
+        reader.clear();
     }
 
-    return data;
+    return levelData;
 }
 
 int Engine::wrap_InitializeEngine(lua_State* L)
@@ -340,16 +357,16 @@ int Engine::wrap_LoadLevel(lua_State* L)
     Engine* engine = (Engine*)lua_touserdata(L, 1);
     std::string levelName = lua_tostring(L, 2);
     
-    LevelData data = engine->LoadLevel(levelName);
+    LevelData levelData = engine->LoadLevel(levelName);
 
-    lua_pushinteger(L, data.width);
-    lua_pushinteger(L, data.height);
+    lua_pushinteger(L, levelData.width);
+    lua_pushinteger(L, levelData.height);
 
-    int size = data.width * data.height;
+    int size = levelData.width * levelData.height;
     lua_createtable(L, 0, size);
     for (int i = 0; i < size; ++i) {
         lua_pushinteger(L, (i + 1));
-        lua_pushinteger(L, data.cells[i]);
+        lua_pushinteger(L, levelData.tiles[i]);
         lua_settable(L, -3);
     }
 

@@ -20,6 +20,7 @@ extern "C"
 // RayLib
 #include <raylib.h>
 #include <raymath.h>
+#include "rlgl.h"
 
 // EnTT
 #include <entt.hpp>

@@ -9,10 +9,16 @@ enum class EColor {
     Yellow,
 };
 
+struct EditorItem {
+    Rectangle source;
+    Rectangle dest;
+    int tileID;
+};
+
 struct LevelData {
 	int width;
 	int height;
-	std::vector<int> cells;
+	std::vector<int> tiles;
 };
 
 struct TextureRec {

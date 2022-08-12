@@ -3,11 +3,9 @@
 -- Map attributes
 ---------------------
 Map = {
-    texture = "ground.png",
+    texture = "tileset.png",
     tileWidth = 16,
     tileHeight = 16,
-    numTilesX = 16, -- screen resolution.x / tileWidth 
-    numTilesY = 12, -- screen resolution.y / tileHeight
     mapWidth = 0,
     mapHeight = 0,
     gravity = 1500,
@@ -72,7 +70,7 @@ function Map:render()
         for w = 1, self.mapWidth do
 
             local tileID = self:getTile(w, h)
-            local tileX = tileID % 5
+            local tileX = tileID % 8
             local tileY = 0 --math.floor(tileID / 7)
    
             sourceRec = { 
@@ -99,7 +97,7 @@ function Map:addMapToRenderBatch()
         for w = 1, self.mapWidth do
 
             local tileID = self:getTile(w, h)
-            local tileX = tileID % 5
+            local tileX = tileID % 8
             local tileY = 0--math.floor(tileID / 7)
    
             sourceRec = { 
