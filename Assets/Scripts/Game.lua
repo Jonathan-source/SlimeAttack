@@ -22,7 +22,6 @@ local slimesKilled = 0
 function onInit()
     gameMap = Map:new()
     gameMap:loadLevel("level.eff")
-    --gameMap:createLevel(25, 25)
     gameMap:addMapToRenderBatch()
 
     player = Player:new({ position = Vector2.new(200, 200) })

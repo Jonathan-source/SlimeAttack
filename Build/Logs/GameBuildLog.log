@@ -1,25 +1,12 @@
 ﻿  pch.cpp
-  Editor.cpp
   Engine.cpp
   Main.cpp
   ResourceManager.cpp
-  Systems.cpp
   Utility.cpp
-C:\Dev\SlimeAttack\Source\Editor.cpp(119,108): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(119,81): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(119,58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(119,35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(123,58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(123,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(127,56): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(127,35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(131,60): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(131,37): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Editor.cpp(265,16): warning C4129: 'E': unrecognized character escape sequence
-C:\Dev\SlimeAttack\Source\Editor.cpp(293,16): warning C4129: 'E': unrecognized character escape sequence
-C:\Dev\SlimeAttack\Source\Editor.cpp(315,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Dev\SlimeAttack\Source\Engine.cpp(233,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Dev\SlimeAttack\Source\Engine.cpp(234,40): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  SlimeAttack.vcxproj -> C:\Dev\SlimeAttack\Build\Bin\Win64_Debug\SlimeAttack.exe
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 1069 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Engine.vcxproj -> C:\Dev\SlimeAttack\Build\Bin\Win64_Release\Engine.exe
           1 file(s) copied.
           1 file(s) copied.

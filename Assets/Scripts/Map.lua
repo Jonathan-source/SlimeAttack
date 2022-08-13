@@ -8,8 +8,8 @@ Map = {
     tileHeight = 16,
     mapWidth = 0,
     mapHeight = 0,
-    gravity = 1500,
-    tiles = {}
+    tiles = {},
+    spawners = {}
 }
 
 
@@ -24,19 +24,6 @@ function Map:tileAtPosition(x, y)
     return self:getTile(math.floor(x / self.tileWidth) + 1, math.floor(y / self.tileWidth) + 1)
 end
 
-function Map:checkCollision(tileID)
-    local collidableTileIDs = {
-        0, 1, 2,
-    }
-    for _, v in ipairs(collidableTileIDs) do
-        if tileID == v then
-            return true
-        end
-    end
-
-    return false
-end
-
 function Map:loadLevel(level)
     print("\n\nLoading '" .. level .. "'")
     self.mapWidth, self.mapHeight, self.tiles = Raylib.loadLevel(level)
@@ -44,34 +31,38 @@ function Map:loadLevel(level)
     print("width: " .. self.mapWidth .. " height: " .. self.mapHeight)
     for y = 1, self.mapHeight do
         for x = 1, self.mapWidth do
-            io.write(self.tiles[(y - 1) * self.mapWidth + x])
+            local tileID = self.tiles[(y - 1) * self.mapWidth + x]
+            io.write(tileID)
             io.write(" ")
+            if tileID == 6 or tileID == 7 then
+                self.spawners[#self.spawners + 1] = { x = x, y = y, id = tileID }
+            end
         end
         print()
     end
-end
 
-
-function Map:createLevel(width, height)
-    self.mapWidth = width
-    self.mapHeight = height
-    for i = 1, (width * height) do
-        if math.random(0, 1) == 1 then
-            self.tiles[#self.tiles + 1] = 4 -- grass
-        else
-            self.tiles[#self.tiles + 1] = math.random(0, 3) -- grass with deco
-        end
+    for _, v in ipairs(self.spawners) do
+        print(v.x .. " " .. v.y .. " " .. v.id)
     end
 end
 
+function Map:isPlayerWithinBoarders(player)
+    local xMax = 0 
+    local yMax = 0 
+    local xMax = self.tileWidth * self.mapWidth
+    local yMax = self.tileWidth * self.mapWidth
+
+
+    return true
+end
+
 function Map:render()
-    -- todo: only render what the camera see
     for h = 1, self.mapHeight do
         for w = 1, self.mapWidth do
 
             local tileID = self:getTile(w, h)
             local tileX = tileID % 8
-            local tileY = 0 --math.floor(tileID / 7)
+            local tileY = 0
    
             sourceRec = { 
                 x = tonumber(tileX * self.tileWidth), 
@@ -92,13 +83,12 @@ end
 
 -- Call once to let C++ render map each frame
 function Map:addMapToRenderBatch()
-    -- todo: only render what the camera see
     for h = 1, self.mapHeight do
         for w = 1, self.mapWidth do
 
             local tileID = self:getTile(w, h)
             local tileX = tileID % 8
-            local tileY = 0--math.floor(tileID / 7)
+            local tileY = 0
    
             sourceRec = { 
                 x = tileX * self.tileWidth, 
