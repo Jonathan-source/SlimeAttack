@@ -30,9 +30,9 @@ function Potion:new(params)
     
         position = params.position,
     
-        minHealthGain = 10,
+        minHealthGain = 15,
 
-        maxHealthGain = 25,
+        maxHealthGain = 35,
 
         timer = 0.0,
   

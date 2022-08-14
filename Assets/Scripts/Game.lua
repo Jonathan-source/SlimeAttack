@@ -12,9 +12,11 @@ local enemyList = {}
 local knifeList = {}
 local itemList = {}
 
-local MAX_KNIFE_COUNT = 2
-
+local MAX_KNIFE_COUNT = 5
 local slimesKilled = 0
+
+local WAVE_START_TIME = 10.0
+local waveTimer = WAVE_START_TIME
 
 ---------------------
 -- Initialize
@@ -27,10 +29,7 @@ function onInit()
     player = Player:new({ position = Vector2.new(200, 200) })
     player.map = gameMap
 
-    for i = 1, 20 do
-        enemyList[#enemyList + 1] = Enemy:new({map = gameMap, player = player,
-        texture = "enemy_slime.png", position = Vector2.new(math.random(0, 400), math.random(0, 400))})
-    end 
+    spawnWave()
 
     Raylib.setCameraTarget(player.position)
     Raylib.setCameraOffset({x = WINDOW_WIDTH / 2, y = WINDOW_HEIGHT / 2})
@@ -45,8 +44,13 @@ end
 function onUpdate(dt)
     player:update(dt)
 
+    waveTimer = waveTimer - dt
+
     -- update enemies
     for i, enemy in ipairs(enemyList) do
+        if waveTimer < 0 then 
+            enemy.state = 'chasing' 
+        end
         enemy:update(dt)
 
         if Raylib.checkCollisionRect(enemy.boundingBox, player.boundingBox) then
@@ -57,7 +61,12 @@ function onUpdate(dt)
                 print("GAME OVER")
             end
         end
+    end
 
+    -- spawn next wave
+    if waveTimer < 0 then 
+        spawnWave()
+        waveTimer = WAVE_START_TIME
     end
 
     -- update items
@@ -147,7 +156,32 @@ function onRender()
         knifeList[i]:render()
     end
 
-    local position = { x = 10, y = 10 }
+    local textPosition = { x = 10, y = 10 }
     local text = "Slimes killed: " .. slimesKilled
-    Raylib.postRenderText(text, position, 25, COLOR.WHITE)
+    Raylib.postRenderText(text, textPosition, 25, COLOR.WHITE)
+
+    textPosition.x = 280
+    text = "Next wave in: " .. math.ceil(waveTimer)
+    Raylib.postRenderText(text, textPosition, 25, COLOR.WHITE)
+end
+
+
+
+
+---------------------
+-- Spawn new wave
+---------------------
+function spawnWave()
+    for i, spawner in ipairs(gameMap.spawners) do
+
+        if spawner.id == 6 then
+            enemyList[#enemyList + 1] = Enemy:new({map = gameMap, player = player,
+            texture = "enemy_slime.png", position = Vector2.new((spawner.x - 1) * gameMap.tileWidth, (spawner.y - 1) * gameMap.tileHeight)})
+
+        elseif spawner.id == 7 then
+            enemyList[#enemyList + 1] = Enemy:new({map = gameMap, player = player, chaseSpeed = 80,
+            texture = "enemy_slime_red.png", position = Vector2.new((spawner.x - 1) * gameMap.tileWidth, (spawner.y - 1) * gameMap.tileHeight)})
+        end
+
+    end 
 end

@@ -24,10 +24,6 @@ Player = {
     healthBar = {x = 0.0, y = 0.0, width = 25.0,  height = 5.0},
     missingHealthBar = {x = 0.0, y = 0.0, width = 25.0,  height = 5.0},
 
-    chargeBar = {x = 0.0, y = 0.0, width = 25.0,  height = 5.0},
-
-    chargebarTimer = 0.0,
-
     animation = nil,
 
     health = 100,
@@ -100,23 +96,10 @@ function Player:update(dt)
 
     self.missingHealthBar.x = self.healthBar.x
     self.missingHealthBar.y = self.healthBar.y
-
-    -- hold for firepower
-    if Raylib.isMouseButtonDown(MOUSE.BUTTON_LEFT) then
-        self.chargebarTimer = self.chargebarTimer + dt
-        if self.chargebarTimer > 1.0 then self.chargebarTimer = 0.0 end
-    else 
-        self.chargebarTimer = 0.0
-    end
-    self.chargeBar.width = 25.0 * self.chargebarTimer
-    self.chargeBar.x = self.position.x
-    self.chargeBar.y = self.position.y
 end
 
 function Player:render()
     Raylib.drawTexturePro(self.texture, self.sourceRec, self.position, 1.5, 0.0) -- player
-
-    Raylib.drawRectangle(self.chargeBar, COLOR.YELLOW)
     Raylib.drawRectangle(self.missingHealthBar, COLOR.RED)
     Raylib.drawRectangle(self.healthBar, COLOR.GREEN)
 end

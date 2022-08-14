@@ -58,7 +58,9 @@ function Enemy:new(params)
 
         scale = 1.5,
 
-        speed = params.speed or 10,
+        speed = 10,
+
+        chaseSpeed = params.chaseSpeed or 40,
     
         state = params.state or 'patrolling',
     
@@ -99,7 +101,7 @@ function Enemy:new(params)
 
         ['chasing'] = function(dt)
             this.direction = this.player.position - this.position
-            this.speed = 40
+            this.speed = this.chaseSpeed
         end,
     }
 
