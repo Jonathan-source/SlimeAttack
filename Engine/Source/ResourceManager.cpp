@@ -42,6 +42,18 @@ Sound& ResourceManager::GetSound(const std::string& name)
     return it->second;
 }
 
+Music& ResourceManager::GetMusic(const std::string& name)
+{
+    MusicMap::iterator it = m_music.find(name);
+    if (it == m_music.end())
+    {
+        Music& music = m_music[name];
+        music = LoadMusicStream(std::string(m_resourcePath + "\\Music\\" + name).c_str());
+        return music;
+    }
+    return it->second;
+}
+
 ResourceManager::~ResourceManager()
 {
     for (auto& it : m_textures)
@@ -52,4 +64,7 @@ ResourceManager::~ResourceManager()
 
     for (auto& it : m_sounds)
         UnloadSound(it.second);
+
+    for (auto& it : m_music)
+        UnloadMusicStream(it.second);
 }

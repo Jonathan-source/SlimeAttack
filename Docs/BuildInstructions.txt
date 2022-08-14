@@ -1,0 +1,7 @@
+
+1. Start 'build_project.bat' to create the Workspace sln-file.
+2. Start the 'Workspace.sln' and build the projects in debug or release mode.
+3. Open the 'Settings.lua' file in \Assets\Scripts folder.
+4. Give the variable 'pathToScripts' the correct path to the scripts.
+
+5. Have fun playing!

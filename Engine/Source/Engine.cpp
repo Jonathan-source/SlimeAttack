@@ -78,6 +78,8 @@ void Engine::Start()
         }
 
         EndDrawing();
+
+        UpdateMusicStream(m_music);
     }
 
     CloseAudioDevice();
@@ -106,6 +108,9 @@ void Engine::RegisterLuaFunctions()
     lua_register(L, "_AddToRenderBatch",        wrap_AddToRenderBatch);
     lua_register(L, "_DrawText",                wrap_DrawText);
     lua_register(L, "_PostRenderText",          wrap_PostRenderText);
+    lua_register(L, "_PlaySound",               wrap_PlaySound);
+    lua_register(L, "_PlayMusic",               wrap_PlayMusic);
+    lua_register(L, "_StopMusic",               wrap_StopMusic);
 }
 
 void Engine::LoadResources()
@@ -120,6 +125,12 @@ void Engine::LoadResources()
     ResourceManager::Get().GetTexture("item_health_potion.png");
 
     ResourceManager::Get().GetFont("mono.ttf");
+
+    ResourceManager::Get().GetSound("item_pickup.ogg");
+    ResourceManager::Get().GetSound("life_lost.ogg");
+    ResourceManager::Get().GetSound("game_over.ogg");
+
+    ResourceManager::Get().GetMusic("overworld.ogg");
 }
 
 bool Engine::LoadMainScript()
@@ -550,6 +561,52 @@ int Engine::wrap_PostRenderText(lua_State* L)
 
     TextData textInfo{ text, x, y, fontSize, GetColor(color)};
     engine->m_renderTextQueue.emplace(textInfo);
+
+    return 0;
+}
+
+int Engine::wrap_PlaySound(lua_State* L)
+{
+    if (lua_gettop(L) != 2) return -1;
+
+    Engine* engine = (Engine*)lua_touserdata(L, 1);
+    std::string soundName = lua_tostring(L, 2);
+
+    Sound sound = ResourceManager::Get().GetSound(soundName);
+    SetSoundVolume(sound, 2.5);
+    PlaySound(sound);
+
+    return 0;
+}
+
+int Engine::wrap_PlayMusic(lua_State* L)
+{
+    if (lua_gettop(L) != 2) return -1;
+
+    Engine* engine = (Engine*)lua_touserdata(L, 1);
+    std::string musicName = lua_tostring(L, 2);
+
+    engine->m_music = ResourceManager::Get().GetMusic(musicName);
+
+    if (!IsMusicStreamPlaying(engine->m_music))
+    {
+        PlayMusicStream(engine->m_music);
+    }
+
+    return 0;
+}
+
+int Engine::wrap_StopMusic(lua_State* L)
+{
+    if (lua_gettop(L) != 2) return -1;
+
+    Engine* engine = (Engine*)lua_touserdata(L, 1);
+    std::string musicName = lua_tostring(L, 2);
+
+    if (IsMusicStreamPlaying(engine->m_music))
+    {
+        StopMusicStream(engine->m_music);
+    }
 
     return 0;
 }

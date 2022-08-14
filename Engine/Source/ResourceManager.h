@@ -16,6 +16,7 @@ public:
 
     Sound& GetSound(const std::string& name);
 
+    Music& GetMusic(const std::string& name);
 private:
     ResourceManager() = default;
     virtual ~ResourceManager();
@@ -30,4 +31,7 @@ private:
 
     typedef std::unordered_map<std::string, Sound> SoundMap;
     SoundMap m_sounds;
+
+    typedef std::unordered_map<std::string, Music> MusicMap;
+    MusicMap m_music;
 };

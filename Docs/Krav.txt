@@ -1,0 +1,12 @@
+Uppgift inom skriptning 2021
+
+Mål: implementera ett mindre spel med tillhörande redigeringsverktyg.
+
+Följande krav måste uppfyllas för att uppgiften ska godkännas:
+
+- Spelet ska implementeras i C++ och Lua, där Lua-interpretatorn körs med C++-programmet som värd.
+- All spellogik ska implementeras i Lua.
+- Anrop till funktioner i Lua-miljön från C++ ska förekomma.
+- C++-funktioner ska registreras till Lua-miljön som anropas från skriptet.
+- Ett redigeringsverktyg ska implementeras där någon form av tillstånd kan skapas i spelet (exempelvis bandesign).
+- Det tillstånd (t.ex. bana) som skapas med verktyget ska kunna sparas och laddas in i spelet med ett egendefinierat filformat.

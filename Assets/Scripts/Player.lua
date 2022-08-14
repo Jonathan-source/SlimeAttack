@@ -87,6 +87,16 @@ function Player:update(dt)
     self.direction:normalize()
     self.position = self.position + self.direction * self.speed * dt
 
+    -- check map boarders
+    if self.position.x < 0 then self.position.x = 0 end    
+    if self.position.x + self.sourceRec.width > self.map.tileWidth * self.map.mapWidth then
+        self.position.x = self.map.tileWidth * self.map.mapWidth - self.sourceRec.width 
+    end
+    if self.position.y + self.sourceRec.height < 0 then self.position.y = -self.sourceRec.height end
+    if self.position.y > self.map.tileHeight * (self.map.mapHeight-1) - self.sourceRec.height then
+        self.position.y = self.map.tileHeight * (self.map.mapHeight-1) - self.sourceRec.height
+    end
+
     self.boundingBox.x = self.position.x + 6
     self.boundingBox.y = self.position.y + 9
 

@@ -16,6 +16,10 @@ C:\Dev\SlimeAttack\Editor\Source\Editor.cpp(131,37): warning C4244: 'argument': 
 C:\Dev\SlimeAttack\Editor\Source\Editor.cpp(265,16): warning C4129: 'E': unrecognized character escape sequence
 C:\Dev\SlimeAttack\Editor\Source\Editor.cpp(293,16): warning C4129: 'E': unrecognized character escape sequence
 C:\Dev\SlimeAttack\Editor\Source\Editor.cpp(315,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Editor.vcxproj -> C:\Dev\SlimeAttack\Build\Bin\Win64_Debug\Editor.exe
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 583 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Editor.vcxproj -> C:\Dev\SlimeAttack\Build\Bin\Win64_Release\Editor.exe
           1 file(s) copied.
           1 file(s) copied.

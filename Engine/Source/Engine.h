@@ -35,6 +35,8 @@ private:
     std::vector<TextureRec> m_renderTextureBatch;
     std::queue<TextData> m_renderTextQueue;
 
+    Music m_music;
+
     // Core Engine 
     void RegisterLuaFunctions();
     void LoadResources();
@@ -68,4 +70,7 @@ private:
     static int wrap_AddToRenderBatch(lua_State* L);
     static int wrap_DrawText(lua_State* L);
     static int wrap_PostRenderText(lua_State* L);
+    static int wrap_PlaySound(lua_State* L);
+    static int wrap_PlayMusic(lua_State* L);
+    static int wrap_StopMusic(lua_State* L);
 };

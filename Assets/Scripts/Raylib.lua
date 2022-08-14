@@ -91,6 +91,18 @@ Raylib = {
     postRenderText = function(text, position, size, color)
         _PostRenderText(m_host, text, position.x, position.y, size, color)
     end,
+
+    playSound = function(sound)
+        _PlaySound(m_host, sound)
+    end,
+
+    playMusic = function(music)
+        _PlayMusic(m_host, music)
+    end,
+
+    stopMusic = function(music)
+        _StopMusic(m_host, music)
+    end,
 }
 
 Raylib = setmetatable({}, 
