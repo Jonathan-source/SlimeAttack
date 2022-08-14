@@ -28,21 +28,17 @@ function Map:loadLevel(level)
     print("\n\nLoading '" .. level .. "'")
     self.mapWidth, self.mapHeight, self.tiles = Raylib.loadLevel(level)
 
-    print("width: " .. self.mapWidth .. " height: " .. self.mapHeight)
+    --print("width: " .. self.mapWidth .. " height: " .. self.mapHeight)
     for y = 1, self.mapHeight do
         for x = 1, self.mapWidth do
             local tileID = self.tiles[(y - 1) * self.mapWidth + x]
-            io.write(tileID)
-            io.write(" ")
+            --io.write(tileID)
+            --io.write(" ")
             if tileID == 6 or tileID == 7 then
                 self.spawners[#self.spawners + 1] = { x = x, y = y, id = tileID }
             end
         end
-        print()
-    end
-
-    for _, v in ipairs(self.spawners) do
-        print(v.x .. " " .. v.y .. " " .. v.id)
+        --print()
     end
 end
 
