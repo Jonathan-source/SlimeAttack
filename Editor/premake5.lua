@@ -16,7 +16,7 @@ project "Editor"
 	includedirs { 
 		"Source",
 		"../ThirdParty/lua542/include",
-		"../ThirdParty/raylib/include"
+		"../ThirdParty/raylib/include",
 	}
 
 	libdirs "../ThirdParty/raylib/"
@@ -66,7 +66,9 @@ project "Editor"
 	-- General Files
 		
 	filter {}
-		files { "Source/*.h", "Source/*.cpp" }
+		files { 
+			"Source/*.h", "Source/*.cpp", 
+		}
 
 	filter {}
 				

@@ -19,6 +19,7 @@ Editor::Editor(int width, int height, const std::string& projectPath)
 	, m_btnSaveMouseHover(false)
 	, m_btnClearMouseHover(false)
 {
+	SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
 	InitWindow(width, height, "Editor");
 	SetTargetFPS(60);
 
@@ -62,7 +63,7 @@ void Editor::Start()
 		EndMode2D();
 
 		DrawPanel();
-		
+
 		EndDrawing();
 	}
 
